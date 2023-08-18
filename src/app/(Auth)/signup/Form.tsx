@@ -5,30 +5,37 @@ import Input from "../components/Input";
 import Link from "next/link";
 import Button from "../components/Button";
 import style from "../scss/globalAuth.module.scss";
-import { Login } from "../types/typeAuth";
+import { signUp } from "../types/typeAuth";
 import axios from "axios";
 import { toast } from "react-toastify";
-const FormLogIn = () => {
-  const { control, handleSubmit } = useForm<Login>({
+const FormSignUp = () => {
+  const { control, handleSubmit } = useForm<signUp>({
     mode: "onChange",
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
-  const submitForm: SubmitHandler<Login> = async (data) => {
+  const submitForm: SubmitHandler<signUp> = async (data) => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}api/user/login`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/user/register`,
         data
       );
-      toast.success("login successful");
+      toast.success("sign Up successful");
     } catch (error) {
       toast.error("error");
     }
   };
   return (
     <form onSubmit={handleSubmit(submitForm)} className={style.formSubmit}>
+      <Input
+        name="name"
+        placeholder="Enter name"
+        type="text"
+        control={control}
+      ></Input>
       <Input
         name="email"
         placeholder="Enter Email"
@@ -49,4 +56,4 @@ const FormLogIn = () => {
   );
 };
 
-export default FormLogIn;
+export default FormSignUp;

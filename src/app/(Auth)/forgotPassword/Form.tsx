@@ -5,24 +5,23 @@ import Input from "../components/Input";
 import Link from "next/link";
 import Button from "../components/Button";
 import style from "../scss/globalAuth.module.scss";
-import { Login } from "../types/typeAuth";
 import axios from "axios";
 import { toast } from "react-toastify";
-const FormLogIn = () => {
-  const { control, handleSubmit } = useForm<Login>({
+import { forgotPasswordEmail } from "../types/typeAuth";
+const ForgotPasword = () => {
+  const { control, handleSubmit } = useForm<forgotPasswordEmail>({
     mode: "onChange",
     defaultValues: {
       email: "",
-      password: "",
     },
   });
-  const submitForm: SubmitHandler<Login> = async (data) => {
+  const submitForm: SubmitHandler<forgotPasswordEmail> = async (data) => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}api/user/login`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/user/forgotpassword`,
         data
       );
-      toast.success("login successful");
+      toast.success("sent email successfully please check your email");
     } catch (error) {
       toast.error("error");
     }
@@ -35,18 +34,9 @@ const FormLogIn = () => {
         type="text"
         control={control}
       ></Input>
-      <Input
-        name="password"
-        placeholder="Enter password"
-        type="text"
-        control={control}
-      ></Input>
-      <span className={style.resetPassword}>
-        <Link href={"/forgotPassword"}>Recover Password ?</Link>
-      </span>
       <Button type={"submit"}>Sign In</Button>
     </form>
   );
 };
 
-export default FormLogIn;
+export default ForgotPasword;

@@ -1,5 +1,7 @@
+$textcolor: #5d5d5d;
+$primarycolor: #4461f2;
 .button {
-  background-color: #4461f2;
+  background-color: $primarycolor;
   padding: 16px;
   width: 100%;
   border-radius: 10px;
@@ -9,4 +11,22 @@
   justify-content: center;
   cursor: pointer;
   border: none;
+}
+.resetPassword {
+  display: flex;
+  justify-content: flex-end;
+  color: $textcolor;
+  a {
+    color: $textcolor;
+    &:hover {
+      color: $primarycolor;
+    }
+  }
+}
+.formSubmit {
+  display: flex;
+  flex-direction: column;
+  width: 25rem;
+  gap: 1.25rem;
+  border-radius: 0.625rem;
 }

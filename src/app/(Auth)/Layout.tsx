@@ -8,12 +8,12 @@ export default function Layout({
   page,
 }: {
   children: React.ReactNode;
-  page: "signin" | "signup" | "forgotPassword";
+  page: "login" | "signup" | "forgotPassword";
 }) {
   let message1, message2, message3, message4;
   switch (page) {
-    case "signin":
-      message1 = "Sign In";
+    case "login":
+      message1 = "Log In";
       message2 = "If you don't an account";
       message3 = "you can";
       message4 = " Register here!";
@@ -42,7 +42,7 @@ export default function Layout({
             <p>
               {message2} <br /> {message3}
               <span>
-                <Link href={`/${page == "signin" ? "signup" : "signin"}`}>
+                <Link href={`/${page == "login" ? "signup" : "login"}`}>
                   {message4}
                 </Link>
               </span>
