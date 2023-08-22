@@ -1,0 +1,20 @@
+.aside {
+  width: 324px;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: sticky;
+  top: 114px;
+  align-self: flex-start;
+}
+.menuBlock {
+  padding: 20px 30px;
+  color: #4e5d78;
+}
+.menuActive {
+  padding: 20px 30px;
+  border-radius: 10px;
+  background-color: #4e5d78;
+  color: white;
+}

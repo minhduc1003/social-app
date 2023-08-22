@@ -1,14 +1,11 @@
-// import "./globals.css";
-// import type { Metadata } from 'next'
-import Image from "next/image";
 import Link from "next/link";
 import style from "./scss/layout.module.scss";
 export default function Layout({
   children,
   page,
 }: {
-  children: React.ReactNode;
-  page: "login" | "signup" | "forgotPassword";
+  children?: React.ReactNode;
+  page?: "login" | "signup" | "forgotPassword";
 }) {
   let message1, message2, message3, message4;
   switch (page) {

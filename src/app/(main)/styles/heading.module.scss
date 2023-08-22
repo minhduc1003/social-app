@@ -1,0 +1,67 @@
+.header {
+  padding: 30px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+}
+.headerWrap {
+  display: flex;
+  align-items: center;
+}
+.logoWrap {
+  width: 324px;
+  img {
+    width: 220px;
+    height: 50px;
+    object-fit: cover;
+  }
+}
+.headingRight {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 1 0%;
+}
+.inputWrap {
+  position: relative;
+  input {
+    width: 700px;
+    padding: 15px 15px 15px 50px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 15px;
+  }
+  span {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translateY(-50%);
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.userWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  p {
+    font-weight: 600;
+  }
+  div {
+    width: 55px;
+    height: 50px;
+    border-radius: 8px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+  }
+}

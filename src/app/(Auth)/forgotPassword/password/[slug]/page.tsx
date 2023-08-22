@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../../../Layout";
+import Layout from "../../../LayoutCustom";
 import FormChangePassword from "./Form";
 
 const ChangePassword = ({ params }: { params: { slug: string } }) => {
