@@ -6,10 +6,7 @@ export default function mainLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Heading />
-      <main style={{ display: "flex", overflow: "visible" }}>
-        <SideBarMenu />
-        {children}
-      </main>
+      {children}
     </>
   );
 }

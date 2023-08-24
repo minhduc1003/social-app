@@ -1,13 +1,18 @@
 import Image from "next/image";
 import React from "react";
 import style from "../styles/heading.module.scss";
+import Option from "./Option";
 const Heading = () => {
   return (
     <header className={style.header}>
       <div className={style.headerWrap}>
-        <div className={style.logoWrap}>
-          <img src="./logo.png" alt="logo" />
+        <div className={style.headingleft}>
+          <div className={style.logoWrap}>
+            <img src="./logo.png" alt="logo" />
+          </div>
+          <Option />
         </div>
+
         <div className={style.headingRight}>
           <div className={style.inputWrap}>
             <input type="text" placeholder="Search for something here..." />

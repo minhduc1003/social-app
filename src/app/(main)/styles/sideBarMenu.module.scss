@@ -1,20 +1,27 @@
 .aside {
-  width: 324px;
-  padding: 0 30px;
+  width: 100%;
+  padding: 0 1.875rem;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 1.875rem;
   position: sticky;
-  top: 114px;
+  top: 7.125rem;
   align-self: flex-start;
+  height: 50.625rem;
+  background: #fff;
 }
 .menuBlock {
-  padding: 20px 30px;
+  padding: 1.25rem 1.875rem;
   color: #4e5d78;
 }
 .menuActive {
-  padding: 20px 30px;
-  border-radius: 10px;
+  padding: 1.25rem 1.875rem;
+  border-radius: 0.625rem;
   background-color: #4e5d78;
   color: white;
+}
+@media screen and (min-width: 375px) and (max-width: 727px) {
+  .aside {
+    display: none;
+  }
 }
