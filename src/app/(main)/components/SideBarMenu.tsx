@@ -1,8 +1,10 @@
+"use client";
 import React from "react";
 import style from "../styles/sideBarMenu.module.scss";
 import Link from "next/link";
 import { MenuLink } from "./MenuLink";
 import { menu } from "../types/menuLinkType";
+import { appSelecter } from "@/redux/configureStore";
 
 const menus: menu = [
   {
@@ -36,10 +38,10 @@ const menus: menu = [
     to: "",
   },
 ];
-
 const SideBarMenu = () => {
+  const { menuActive } = appSelecter((state) => state.global);
   return (
-    <aside className={style.aside}>
+    <aside className={`${style.aside} ${menuActive ? style.active : ""}`}>
       <MenuLink navLinks={menus}></MenuLink>
     </aside>
   );

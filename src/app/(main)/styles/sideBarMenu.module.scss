@@ -7,7 +7,7 @@
   position: sticky;
   top: 7.125rem;
   align-self: flex-start;
-  height: 50.625rem;
+  height: 810px;
   background: #fff;
 }
 .menuBlock {
@@ -20,8 +20,12 @@
   background-color: #4e5d78;
   color: white;
 }
+.active {
+  display: flex !important;
+}
 @media screen and (min-width: 375px) and (max-width: 727px) {
   .aside {
     display: none;
+    height: 780px;
   }
 }

@@ -1,11 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "../styles/heading.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { changeMenuActive } from "@/redux/feature/globalSlice";
+import { appSelecter, dispatchType } from "@/redux/configureStore";
 
 const Option = () => {
-  const [active, setActive] = useState<boolean>(false);
+  const dispatch = useDispatch<dispatchType>();
+  const { menuActive } = appSelecter((state) => state.global);
+  const [isOpen, setIsOpen] = useState<boolean>(menuActive);
+  useEffect(() => {
+    dispatch(changeMenuActive(isOpen));
+  }, [dispatch, isOpen]);
   return (
-    <div className={style.option}>
+    <div className={style.option} onClick={() => setIsOpen(!isOpen)}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

@@ -1,5 +1,5 @@
 import React from "react";
-import style from "../styles/friendsList.module.scss";
+import style from "../styles/homePageStyle/friendsList.module.scss";
 const FriendList = () => {
   return (
     <aside className={style.aside}>
