@@ -1,0 +1,134 @@
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 20px;
+  box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
+  background-color: #fff;
+  border-radius: 12px;
+}
+.wrapTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wrapTopLeft {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  .avatarWrap {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+  }
+}
+.wrapText {
+  h3 {
+    font-weight: 500;
+    font-size: 18px;
+  }
+  p {
+    margin-top: 10px;
+    color: #a8b0bd;
+  }
+}
+.wrapOption {
+  span {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+.wrapCenter {
+  margin: 15px 0;
+  .contentImage {
+    img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+}
+.contentDetail {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 40px;
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #a8b0bd;
+    span {
+      font-size: 14px;
+      font-weight: 500;
+
+      color: #a8b0bd;
+      margin-right: 10px;
+    }
+  }
+}
+.communicate {
+  margin-top: 15px;
+  .line {
+    width: 100%;
+    height: 2px;
+    background-color: #a8b0bd;
+  }
+  .communicateWrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    div {
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+}
+.commentText {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  .avatarWrap {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+  }
+  .inputText {
+    width: 100%;
+    border-radius: 10px;
+    background-color: #f6f7f8;
+    padding: 15px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+  }
+  .buttonSentComment {
+    width: 45px;
+    height: 45px;
+    background-color: #ebf2ff;
+    border-radius: 5px;
+    padding: 10px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
