@@ -1,7 +1,7 @@
-import Image from "next/image";
 import React from "react";
 import style from "../styles/heading.module.scss";
 import Option from "./Option";
+import HeadingUser from "./HeadingUser";
 const Heading = () => {
   return (
     <header className={style.header}>
@@ -32,12 +32,7 @@ const Heading = () => {
               </svg>
             </span>
           </div>
-          <div className={style.userWrap}>
-            <p>ducdzvcc</p>
-            <div>
-              <img src="./ava.png" alt="ava" />
-            </div>
-          </div>
+          <HeadingUser />
         </div>
       </div>
     </header>

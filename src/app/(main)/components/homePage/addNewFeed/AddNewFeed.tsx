@@ -1,17 +1,32 @@
-import React from "react";
-import style from "../../styles/homePageStyle/addNewFeed.module.scss";
+"use client";
+import React, { useState } from "react";
+import style from "../../../styles/homePageStyle/addNewFeed/addNewFeed.module.scss";
+import { appSelecter, dispatchType } from "@/redux/configureStore";
+import ModalAddNew from "./ModalAddNew";
+import { useDispatch } from "react-redux";
+import { openImage, openModal } from "@/redux/feature/addNewArticleSlice";
 const AddNewFeed = () => {
+  const { user } = appSelecter((state) => state.auth);
+  const dispatch = useDispatch<dispatchType>();
+  const { isOpenImage, isOpenModal } = appSelecter(
+    (state) => state.addNewArticle
+  );
   return (
     <div className={style.wrap}>
       <div className={style.topWrap}>
         <div className={style.avatarWrap}>
-          <img src="./ava.png" alt="ava" />
+          <img src={user?.photo} alt="ava" />
         </div>
-        <input disabled type="text" placeholder="What's happening?" />
+        <ModalAddNew data={user}></ModalAddNew>
       </div>
       <div className={style.botWrap}>
         <div className={style.feature}>
-          <span>
+          <span
+            onClick={() => {
+              dispatch(openModal(true));
+              dispatch(openImage(true));
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

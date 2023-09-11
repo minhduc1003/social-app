@@ -8,7 +8,14 @@ import style from "../scss/globalAuth.module.scss";
 import { Login } from "../types/typeAuth";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { saveCookie } from "@/utils/cookies";
+import { useDispatch } from "react-redux";
+import { appSelecter, dispatchType } from "@/redux/configureStore";
+import { updateUser } from "@/redux/feature/authSlice";
+import { useRouter } from "next/navigation";
 const FormLogIn = () => {
+  const dispatch = useDispatch<dispatchType>();
+  const router = useRouter();
   const { control, handleSubmit } = useForm<Login>({
     mode: "onChange",
     defaultValues: {
@@ -18,11 +25,14 @@ const FormLogIn = () => {
   });
   const submitForm: SubmitHandler<Login> = async (data) => {
     try {
-      await axios.post(
+      const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}api/user/login`,
         data
       );
+      dispatch(updateUser(res.data));
+      saveCookie(res.data.token);
       toast.success("login successful");
+      router.push("/");
     } catch (error) {
       toast.error("error");
     }

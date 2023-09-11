@@ -1,7 +1,7 @@
 import FriendList from "./components/FriendList";
 import SideBarMenu from "./components/SideBarMenu";
-import AddNewFeed from "./components/homePage/AddNewFeed";
-import Feed from "./components/homePage/Feed";
+import AddNewFeed from "./components/homePage/addNewFeed/AddNewFeed";
+import Feed from "./components/homePage/addNewFeed/Feed";
 import WrapMainLayout from "./components/homePage/WrapMainLayout";
 export default function Home() {
   return (
