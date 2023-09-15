@@ -8,7 +8,7 @@ const Heading = () => {
       <div className={style.headerWrap}>
         <div className={style.headingleft}>
           <div className={style.logoWrap}>
-            <img src="./logo.png" alt="logo" />
+            <img src="/logo.png" alt="logo" />
           </div>
           <Option />
         </div>

@@ -1,7 +1,12 @@
 .wrapper {
   display: grid;
-  grid-template-columns: 321px 1fr 370px;
   overflow: visible;
+}
+.col2 {
+  grid-template-columns: 321px 1fr;
+}
+.col3 {
+  grid-template-columns: 321px 1fr 370px;
 }
 .menuActive {
   grid-template-columns: 1fr !important;

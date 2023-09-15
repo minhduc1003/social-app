@@ -4,9 +4,9 @@ interface options {
   domain: string;
 }
 let date = new Date();
-date.setTime(date.getTime() + 60 * 1000);
+date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
 const cookieOptions: options = {
-  expires: 30,
+  expires: date,
   domain: "localhost",
 };
 export const saveCookie = (cookie: string) => {

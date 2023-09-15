@@ -3,13 +3,16 @@ import globalSlice from "./feature/globalSlice";
 import logger from "redux-logger";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import authSlice from "./feature/authSlice";
-import addNewArticleSlice from "./feature/addNewArticleSlice";
+
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./saga/rootSaga";
+import articleSlice from "./feature/articleSlice";
+import modalSlice from "./feature/modal";
 const reducer = combineReducers({
   global: globalSlice,
   auth: authSlice,
-  addNewArticle: addNewArticleSlice,
+  modal: modalSlice,
+  article: articleSlice,
 });
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({

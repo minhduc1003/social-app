@@ -1,17 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-type user =
-  | {
-      name: string;
-      email: string;
-      password: string;
-      photo: string;
-      phone: string;
-      bio: string;
-      permission: string;
-    }
-  | undefined;
+import { user } from "../saga/auth/type";
+
 type TAuthSlice = {
-  user: user;
+  user: user | undefined;
   token: string;
 };
 export const auth = createSlice({
@@ -31,5 +22,5 @@ export const auth = createSlice({
     getUser: () => {},
   },
 });
-export const { updateUser, getUser,updateToken } = auth.actions;
+export const { updateUser, getUser, updateToken } = auth.actions;
 export default auth.reducer;
