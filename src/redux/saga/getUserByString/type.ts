@@ -7,8 +7,10 @@ export type user = {
   phone: string;
   permission: string;
   profilePicture: string;
-  followers: string[] | [];
-  followings: string[] | [];
+  followers: string;
+  followings: string;
   gender: string;
   dayOfBirth: string;
+  web: string;
+  location: string;
 };

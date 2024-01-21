@@ -15,9 +15,8 @@ const WrapMainLayout = ({ children }: { children: ReactNode }) => {
   }, []);
   return (
     <main
-      className={`${style.wrapper} ${
-        pathname === "/" ? style.col3 : style.col2
-      } ${menuActive ? style.menuActive : ""}`}
+      className={`${style.wrapper} ${pathname === "/" || pathname === "/messages" ? style.col3 : style.col2
+        } ${menuActive ? style.menuActive : ""}`}
     >
       {children}
     </main>

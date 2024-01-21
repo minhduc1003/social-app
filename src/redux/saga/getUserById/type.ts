@@ -11,4 +11,6 @@ export type user = {
   followings: string[] | [];
   gender: string;
   dayOfBirth: string;
+  web: string;
+  location: string;
 };

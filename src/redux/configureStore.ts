@@ -8,11 +8,13 @@ import createSagaMiddleware from "redux-saga";
 import rootSaga from "./saga/rootSaga";
 import articleSlice from "./feature/articleSlice";
 import modalSlice from "./feature/modal";
+import userSlice from "./feature/userSlice";
 const reducer = combineReducers({
   global: globalSlice,
   auth: authSlice,
   modal: modalSlice,
   article: articleSlice,
+  user: userSlice,
 });
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({

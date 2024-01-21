@@ -16,7 +16,7 @@ const Feed = () => {
   return (
     <>
       {article.length > 0 &&
-        article.map((data, index) => (
+        article.toReversed().map((data, index) => (
           <div key={data._id} className={style.wrap}>
             <div className={style.wrapTop}>
               <div className={style.wrapTopLeft}>

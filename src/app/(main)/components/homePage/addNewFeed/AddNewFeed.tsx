@@ -5,6 +5,7 @@ import { appSelecter, dispatchType } from "@/redux/configureStore";
 import ModalAddNew from "./ModalAddNew";
 import { useDispatch } from "react-redux";
 import { openAddArticle, openImage, openModal } from "@/redux/feature/modal";
+
 const AddNewFeed = () => {
   const { user } = appSelecter((state) => state.auth);
   const dispatch = useDispatch<dispatchType>();

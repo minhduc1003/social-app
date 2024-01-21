@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "../../../styles/homePageStyle/addNewFeed/addNewFeed.module.scss";
 import useClickOutside from "@/hooks/useClickOutSide";
 import { user } from "@/redux/saga/auth/type";
@@ -10,12 +10,15 @@ import { useDispatch } from "react-redux";
 import { appSelecter, dispatchType } from "@/redux/configureStore";
 import { openAddArticle, openImage, openModal } from "@/redux/feature/modal";
 import Modal from "../../Modal";
+import Button from "../../Button";
+import { getArticles } from "@/redux/feature/articleSlice";
+import { useBeforeunload } from 'react-beforeunload';
 const ModalAddNew = ({ data }: { data: user | undefined }) => {
   const dispatch = useDispatch<dispatchType>();
   const { isOpenImage, isOpenModal, isOpenAddArticle } = appSelecter(
     (state) => state.modal
   );
-  const [text, setText] = useState<string | undefined>(undefined);
+  const [text, setText] = useState<string | "">("");
   const [imageId, setImageId] = useState<string | undefined>(undefined);
   const divRef = useRef<HTMLDivElement | null>(null);
   const editable = useRef<HTMLDivElement | null>(null);
@@ -27,8 +30,8 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
     isOpenModal
       ? getBody?.classList.add(style.openModalClass)
       : document.getElementsByClassName(style.openModalClass)
-      ? getBody?.classList.remove(style.openModalClass)
-      : null;
+        ? getBody?.classList.remove(style.openModalClass)
+        : null;
   }
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -46,15 +49,13 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
         }
       );
       toast.success("upload successfully");
-
       setImageId(res.data.imageId);
     }
   };
   const handleUpload = async (e: any) => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}api/post/upload/${
-          imageId ? imageId : ""
+        `${process.env.NEXT_PUBLIC_API_URL}api/post/upload/${imageId ? imageId : ""
         }`,
         {
           text,
@@ -66,10 +67,17 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
         }
       );
       toast.success("upload successfully");
+      dispatch(openModal(false));
+      dispatch(openAddArticle(false));
+      setText("");
+      setImageId(undefined);
+      dispatch(getArticles());
     } catch (error) {
       toast.error("upload failed");
     }
   };
+  useBeforeunload(text !== '' ? (event) => event.preventDefault() : undefined);
+
   return (
     <>
       <div
@@ -125,7 +133,10 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
               className={style.addText}
               contentEditable="true"
               data-text={"What is happening?"}
-              onInput={() => setText(editable.current?.innerHTML)}
+              onInput={() => {
+                setText(editable.current?.innerHTML)
+                console.log(editable.current?.innerHTML);
+              }}
             ></div>
             {isOpenImage && (
               <label className={style.addImage}>
@@ -180,13 +191,9 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
               </div>
             </div>
           </div>
-          <button
-            onClick={handleUpload}
-            disabled={text ? false : true}
-            className={style.btnPost}
-          >
+          <Button onClick={handleUpload} disabled={text !== "" ? false : true}>
             Post
-          </button>
+          </Button>
         </Modal>
       )}
     </>
