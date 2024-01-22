@@ -9,7 +9,7 @@ export default function Home() {
       <section style={{ borderRadius: "41px", backgroundColor: "#f9fafb" }}>
         <div style={{ maxWidth: "660px", margin: "0 auto", width: "100%" }}>
           <AddNewFeed></AddNewFeed>
-          <Feed></Feed>
+          <Feed Id={undefined}></Feed>
         </div>
       </section>
       <FriendList />

@@ -12,6 +12,7 @@ import { getUserData } from "@/redux/feature/userSlice";
 import style from "../../styles/profile/profile.module.scss";
 const Profile = () => {
   const dispatch = useDispatch<dispatchType>();
+  const { user } = appSelecter((state) => state.auth);
   const { isLoadingUserData } = appSelecter((state) => state.user);
   const params = useParams();
   useEffect(() => {
@@ -25,8 +26,8 @@ const Profile = () => {
         <section className={style.detailProfile}>
           <DetaiInfo></DetaiInfo>
           <div className={style.wrapArticle}>
-            <AddNewFeed />
-            <Feed />
+            {user?._id === params.id && <AddNewFeed />}
+            <Feed Id={params.id as string} />
           </div>
         </section>
       </aside>

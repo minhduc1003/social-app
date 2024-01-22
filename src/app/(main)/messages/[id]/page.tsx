@@ -1,9 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import AddNewFeed from '../components/homePage/addNewFeed/AddNewFeed';
-import Feed from '../components/homePage/addNewFeed/Feed';
-import FriendList from '../components/FriendList';
-import style from '../styles/messages/message.module.scss'
+import AddNewFeed from '../../components/homePage/addNewFeed/AddNewFeed';
+import Feed from '../../components/homePage/addNewFeed/Feed';
+import FriendList from '../../components/FriendList';
+import style from '../../styles/messages/message.module.scss'
 import { appSelecter, dispatchType } from '@/redux/configureStore';
 import { useDispatch } from 'react-redux';
 import { getUser } from '@/redux/feature/authSlice';

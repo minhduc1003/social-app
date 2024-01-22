@@ -1,22 +1,52 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "../../../styles/homePageStyle/feed.module.scss";
 import FeedOptions from "./FeedOptions";
 import { appSelecter } from "@/redux/configureStore";
 import Image from "next/image";
+import { TArticle } from "@/redux/saga/article/type";
+import axios from "axios";
+import { getCookies } from "@/utils/cookies";
 
-const Feed = () => {
-  const { article } = appSelecter((state) => state.article);
+const Feed = ({ Id }: { Id: string | null | undefined }) => {
+  const [post, setPost] = useState<TArticle>([]);
   const { user } = appSelecter((state) => state.auth);
+  const cookie = getCookies();
+  const { article } = appSelecter((state) => state.article);
+
+  const getPostById = async (postId: string) => {
+    if (cookie) {
+      const data = await axios.get<TArticle>(
+        `${process.env.NEXT_PUBLIC_API_URL}api/post/getPost/${postId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${cookie}`,
+          },
+        }
+      ).then(response =>
+        setPost(response.data)
+
+      )
+    }
+  }
+
+
   function formatDate(d: string) {
     let date = new Date(d);
     return `${date.getDate()}/${date.getMonth()} ${date.getHours()}:${date.getMinutes()}`;
   }
-
+  useEffect(() => {
+    if (Id && Id !== undefined) {
+      setPost(() => getPostById(Id) as never)
+    } else {
+      setPost(article as never)
+    }
+  }, [Id, article])
   return (
     <>
-      {article.length > 0 &&
-        article.toReversed().map((data, index) => (
+      {post.length > 0 &&
+        post.toReversed().map((data, index) => (
           <div key={data._id} className={style.wrap}>
             <div className={style.wrapTop}>
               <div className={style.wrapTopLeft}>

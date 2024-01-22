@@ -1,6 +1,6 @@
 import axios from "axios";
-import { user } from "./type";
 import { getCookies } from "@/utils/cookies";
+import { user } from "@/app/(Auth)/types/type";
 
 export const getUser = async (id: string) => {
   const cookie = getCookies();

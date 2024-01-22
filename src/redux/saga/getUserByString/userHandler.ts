@@ -1,8 +1,8 @@
 import { call, put, CallEffect } from "redux-saga/effects";
 import { getFilter } from "./filterUserSagaApi";
-import { user } from "./type";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { setIsLoadingUserData, updateFilter } from "@/redux/feature/userSlice";
+import { user } from "@/app/(Auth)/types/type";
 type data = {
   data: user[];
 };

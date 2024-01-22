@@ -10,4 +10,5 @@ export type TArticle = {
   };
   likes: string[];
   createdAt: string;
+  updatedAt: string;
 }[];

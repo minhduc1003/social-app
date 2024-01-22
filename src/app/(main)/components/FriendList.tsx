@@ -1,6 +1,11 @@
+'use client'
 import React from "react";
 import style from "../styles/homePageStyle/friendsList.module.scss";
+import { appSelecter } from "@/redux/configureStore";
+import { useRouter } from "next/navigation";
 const FriendList = () => {
+  const { user } = appSelecter((state) => state.auth);
+  const router = useRouter();
   return (
     <aside className={style.aside}>
       <div className={style.inputWrap}>
@@ -22,14 +27,13 @@ const FriendList = () => {
         </span>
       </div>
       <div className={style.friendList}>
-        {Array(20)
-          .fill(0)
+        {user?.friend && user.friend
           .map((item, index) => (
-            <div key={index} className={style.friendItem}>
+            <div key={index} className={style.friendItem} onClick={() => router.push(`messages/${item.userId}`)}>
               <div className={style.friendImageWrap}>
-                <img src="./ava.png" alt="avata" />
+                <img src={item.image} alt="avata" />
               </div>
-              <p>sdada</p>
+              <p>{item.name}</p>
             </div>
           ))}
       </div>

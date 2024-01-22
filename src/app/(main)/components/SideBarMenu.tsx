@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import style from "../styles/sideBarMenu.module.scss";
 import Link from "next/link";
 import { MenuLink } from "./MenuLink";
@@ -30,9 +30,9 @@ const SideBarMenu = () => {
     },
     {
       id: 3,
-      name: "Settings",
+      name: `Friend Request ${user?.notification && user?.notification.length > 0 ? `(${user?.notification.length})` : ""}`,
       icon: ``,
-      to: "/settings",
+      to: `/friendRequest/${user?._id}`,
     },
     {
       id: 4,

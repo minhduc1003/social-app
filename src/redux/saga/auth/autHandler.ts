@@ -1,7 +1,8 @@
 import { call, put, CallEffect } from "redux-saga/effects";
 import { getUser } from "./authApi";
-import { user } from "./type";
+
 import { updateUser } from "@/redux/feature/authSlice";
+import { user } from "@/app/(Auth)/types/type";
 
 export default function* handleGetUser() {
   try {

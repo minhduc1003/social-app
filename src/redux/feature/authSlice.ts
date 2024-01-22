@@ -1,5 +1,5 @@
+import { user } from "@/app/(Auth)/types/type";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { user } from "../saga/auth/type";
 
 type TAuthSlice = {
   user: user | undefined;
@@ -19,7 +19,7 @@ export const auth = createSlice({
       ...state,
       token: action.payload,
     }),
-    getUser: () => {},
+    getUser: () => { },
   },
 });
 export const { updateUser, getUser, updateToken } = auth.actions;

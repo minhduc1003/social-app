@@ -1,5 +1,5 @@
+import { user } from "@/app/(Auth)/types/type";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { user } from "../saga/getUserById/type";
 type initialState = {
   userData: user;
   isLoadingUserData: boolean;

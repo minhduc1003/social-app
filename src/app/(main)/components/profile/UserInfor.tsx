@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import style from "../../styles/profile/profile.module.scss";
 import { appSelecter, dispatchType } from "@/redux/configureStore";
 import { useDispatch } from "react-redux";
@@ -10,8 +10,10 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { getUserData } from "@/redux/feature/userSlice";
 import { getUser } from "@/redux/feature/authSlice";
+import { io } from "socket.io-client";
 
 const UserInfor = () => {
+  const socket = io('http://localhost:3009', { transports: ['websocket'] });
   const dispatch = useDispatch<dispatchType>();
   const { userData } = appSelecter((state) => state.user);
   const { user } = appSelecter((state) => state.auth);
@@ -22,7 +24,7 @@ const UserInfor = () => {
     try {
       if (cookie) {
         await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}api/user/${params.id}/follow`,
+          `${process.env.NEXT_PUBLIC_API_URL}api/user/follow/${params.id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -34,14 +36,14 @@ const UserInfor = () => {
         dispatch(getUserData(params.id))
       }
     } catch (error) {
-
+      console.log(error);
     }
   }
   const unFollowUser = async () => {
     try {
       if (cookie) {
         await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}api/user/${params.id}/unfollow`,
+          `${process.env.NEXT_PUBLIC_API_URL}api/user/unfollow/${params.id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -53,9 +55,14 @@ const UserInfor = () => {
         dispatch(getUserData(params.id))
       }
     } catch (error) {
-
+      console.log(error);
     }
   }
+  useEffect(() => {
+    socket.on('sent_Accepted', (data) => {
+      dispatch(getUser())
+    })
+  }, [socket]);
   return (
     <section className={style.userInfo}>
       <div className={style.nameAndBasicInfo}>
@@ -85,16 +92,23 @@ const UserInfor = () => {
         )
       }
       {
-        user?._id !== userData?._id && !user?.followings?.includes(params.id as never) && (
+        user?._id !== userData?._id && !user?.friend?.some((item) => item.userId == params.id) && (
           <div className={style.btnEdit} onClick={followUser}>
-            followings
+            Add new
           </div>
         )
       }
       {
-        user?._id !== userData?._id && user?.followings?.includes(params.id as never) && (
+        user?._id !== userData?._id && user?.friend?.some((item) => item.status == "Pending") && (
+          <div className={style.btnEdit}>
+            Requested
+          </div>
+        )
+      }
+      {
+        user?._id !== userData?._id && user?.friend?.some((item) => item.userId == params.id) && user?.friend?.some((item) => item.status == "Accepted") && (
           <div className={style.btnEdit} onClick={unFollowUser}>
-            followed
+            Friend
           </div>
         )
       }
