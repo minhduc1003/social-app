@@ -2,6 +2,14 @@
     border-radius: 41px;
     background-color: #f9fafb;
 
+    .textWarning {
+        font-size: 30px;
+        font-weight: 600;
+        color: #333333;
+        margin: 0;
+        padding: 20px;
+    }
+
     .itemContainer {
         margin: 0 auto;
         width: 100%;
@@ -41,7 +49,53 @@
 
         .center {
             flex-grow: 1;
+            overflow: auto;
+            height: 500px;
+            padding: 20px;
 
+            .message {
+                display: flex;
+                flex-direction: column;
+                margin-top: 20px;
+            }
+
+            .messageTop {
+                display: flex;
+            }
+
+            .messageImg {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-right: 10px;
+            }
+
+            .messageText {
+                padding: 10px;
+                border-radius: 20px;
+
+                max-width: 300px;
+            }
+
+            .messageBottom {
+                font-size: 12px;
+                margin-top: 10px;
+            }
+
+            .message.own {
+                align-items: flex-end;
+            }
+
+            .message .messageText {
+                background-color: rgb(245, 241, 241);
+                color: black;
+            }
+
+            .message.own .messageText {
+                background-color: #1877f2;
+                color: white;
+            }
         }
 
         .bottom {
