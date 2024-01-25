@@ -13,7 +13,7 @@ const HeadingUser = () => {
 
   useEffect(() => {
     if (!user) {
-      dispatch(getUser());
+      // dispatch(getUser());
     }
   }, [dispatch, user]);
   return (

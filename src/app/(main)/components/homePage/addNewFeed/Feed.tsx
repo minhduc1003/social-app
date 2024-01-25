@@ -13,7 +13,6 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
   const { user } = appSelecter((state) => state.auth);
   const cookie = getCookies();
   const { article } = appSelecter((state) => state.article);
-
   const getPostById = async (postId: string) => {
     if (cookie) {
       const data = await axios.get<TArticle>(
@@ -28,6 +27,32 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
         setPost(response.data)
 
       )
+    }
+  }
+  const handleLike = async (id: string) => {
+    if (cookie) {
+      try {
+        await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}api/post/likes/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${cookie}`,
+            },
+          }
+        ).then(response => {
+          console.log(response.data);
+          let arrayForSort = [...post]
+          arrayForSort.forEach((element, index) => {
+            if (element._id === response?.data._id) {
+              arrayForSort[index] = response?.data;
+            }
+          })
+          setPost(arrayForSort)
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -90,11 +115,11 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
             <div className={style.communicate}>
               <div className={style.line}></div>
               <div className={style.communicateWrap}>
-                <div className={style.communicateItem}>
+                <div onClick={() => handleLike(data?._id as string)} className={style.communicateItem}>
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
+                      fill={data?.likes.includes(user?._id as string) ? "red" : "none"}
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"

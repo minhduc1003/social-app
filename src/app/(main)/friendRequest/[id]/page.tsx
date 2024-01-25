@@ -30,8 +30,8 @@ const Notification = () => {
                         },
                     }
                 );
-                dispatch(getUser())
-                dispatch(getUserData(params.id))
+                // dispatch(getUser())
+                // dispatch(getUserData(params.id))
             }
         } catch (error) {
             console.log(error);
@@ -49,8 +49,8 @@ const Notification = () => {
                         },
                     }
                 );
-                dispatch(getUser())
-                dispatch(getUserData(params.id))
+                // dispatch(getUser())
+                // dispatch(getUserData(params.id))
             }
         } catch (error) {
             console.log(error);
@@ -58,7 +58,7 @@ const Notification = () => {
     }
     useEffect(() => {
         socket.on('sent_notification', (data) => {
-            dispatch(getUser())
+            // dispatch(getUser())
         })
     }, [socket]);
     return (

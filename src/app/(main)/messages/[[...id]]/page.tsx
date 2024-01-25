@@ -46,7 +46,7 @@ const Messages = () => {
     }, [arrivalMessage, user?._id]);
     useEffect(() => {
         if (params.id && params.id.length > 0) {
-            dispatch(getUserData(params.id[0]))
+            // dispatch(getUserData(params.id[0]))
         }
     }, [])
     const addMessage = async () => {

@@ -11,7 +11,7 @@ const WrapMainLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const dispartch = useDispatch<dispatchType>();
   useEffect(() => {
-    dispartch(getArticles());
+    // dispartch(getArticles());
   }, []);
   return (
     <main

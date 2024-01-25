@@ -16,7 +16,7 @@ const Profile = () => {
   const { isLoadingUserData } = appSelecter((state) => state.user);
   const params = useParams();
   useEffect(() => {
-    dispatch(getUserData(params.id));
+    // dispatch(getUserData(params.id));
   }, []);
   return (
     <>

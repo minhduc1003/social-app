@@ -19,3 +19,6 @@ export const saveCookie = (cookie: string) => {
 export const getCookies = () => {
   return Cookies.get("token");
 };
+export const deleteCookies = () => {
+  Cookies.remove("token", { ...cookieOptions, path: "/" });
+}
