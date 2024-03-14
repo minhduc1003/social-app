@@ -1,7 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
 import style from "../styles/sideBarMenu.module.scss";
-import Link from "next/link";
 import { MenuLink } from "./MenuLink";
 import { menu } from "../types/menuLinkType";
 import { appSelecter } from "@/redux/configureStore";

@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Heading from "./(main)/components/Heading";
+import NextNProgressClient from "./(main)/components/NextNProgressClient";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
+
         <RootProvider>{children}</RootProvider>
         <ToastContainer />
       </body>

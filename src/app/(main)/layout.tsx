@@ -4,7 +4,9 @@ import Heading from "./components/Heading";
 import SideBarMenu from "./components/SideBarMenu";
 import RootProvider from "@/redux/Provider";
 import WrapMainLayout from "./components/homePage/WrapMainLayout";
-import { useEffect } from "react";
+import NextNProgressClient from "./components/NextNProgressClient";
+
+
 export default function MainLayout({ children }: { children: ReactNode }) {
 
   return (
@@ -13,7 +15,10 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         <Heading />
         <WrapMainLayout>
           <SideBarMenu />
+          <NextNProgressClient>
+
           {children}
+          </NextNProgressClient>
         </WrapMainLayout>
       </RootProvider>
     </>

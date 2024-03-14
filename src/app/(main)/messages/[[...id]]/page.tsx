@@ -1,17 +1,13 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react';
-import AddNewFeed from '../../components/homePage/addNewFeed/AddNewFeed';
-import Feed from '../../components/homePage/addNewFeed/Feed';
+import  { useEffect, useRef, useState } from 'react';
 import FriendList from '../../components/FriendList';
 import style from '../../styles/messages/message.module.scss'
 import { appSelecter, dispatchType } from '@/redux/configureStore';
 import { useDispatch } from 'react-redux';
-import { getUser } from '@/redux/feature/authSlice';
 import io from 'socket.io-client'
 import { useParams } from "next/navigation";
-import { getFilterData, getUserData } from '@/redux/feature/userSlice';
-import axios from 'axios';
-import { getCookies } from '@/utils/cookies';
+import { getUserData } from '@/redux/feature/userSlice';
+import axiosInstance from '@/app/api/configAxios';
 const Messages = () => {
     const socket = io('http://localhost:3009', { transports: ['websocket'] });
     const { user } = appSelecter((state) => state.auth);
@@ -34,7 +30,9 @@ const Messages = () => {
                 conversationMember: data.conversationMember
             });
         });
-
+        return () => {
+            socket.disconnect();
+          };
     }, [socket]);
     useEffect(() => {
         socket.emit("addUser", user?._id);
@@ -46,7 +44,7 @@ const Messages = () => {
     }, [arrivalMessage, user?._id]);
     useEffect(() => {
         if (params.id && params.id.length > 0) {
-            // dispatch(getUserData(params.id[0]))
+            dispatch(getUserData(params.id[0]))
         }
     }, [])
     const addMessage = async () => {
@@ -63,12 +61,7 @@ const Messages = () => {
                     senderId: user?._id,
                     text: message,
                 })
-                await axios.post(`${process.env.NEXT_PUBLIC_API_URL}api/message`, messageSender, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${getCookies()}`
-                    }
-                })
+                await axiosInstance.post(`api/message`, messageSender)
                 setRenderMessage((prev: any) => [...prev, messageSender]);
             }
             setMessage('')
@@ -80,12 +73,7 @@ const Messages = () => {
         const getMessage = async () => {
             try {
 
-                await axios.get(`${process.env.NEXT_PUBLIC_API_URL}api/message/${user?._id}/${params.id[0]}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${getCookies()}`
-                    }
-                }).then((res) => {
+                await axiosInstance.get(`api/message/${user?._id}/${params.id[0]}`).then((res) => {
                     setRenderMessage(res.data);
 
                 })
@@ -95,7 +83,7 @@ const Messages = () => {
             }
         }
         getMessage()
-    }, [user?._id])
+    }, [params.id, user?._id])
     useEffect(() => {
         if (scrollRef && scrollRef.current) {
             scrollRef.current?.scrollIntoView({ behavior: "smooth" });

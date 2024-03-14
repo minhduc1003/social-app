@@ -4,62 +4,47 @@ import { appSelecter, dispatchType } from "@/redux/configureStore";
 import FriendList from "../../components/FriendList";
 import style from "../../styles/notification/noti.module.scss"
 import { useDispatch } from "react-redux";
-import { getCookies } from "@/utils/cookies";
 import { useParams } from "next/navigation";
-import axios from "axios";
 import { getUser } from "@/redux/feature/authSlice";
 import { getUserData } from "@/redux/feature/userSlice";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { notification } from "@/app/(Auth)/types/type";
+import axiosInstance from "@/app/api/configAxios";
 const Notification = () => {
     const socket = io('http://localhost:3009', { transports: ['websocket'] });
     const { user } = appSelecter((state) => state.auth);
     const dispatch = useDispatch<dispatchType>();
-    const cookie = getCookies();
     const params = useParams();
     const acceptNewFriend = async (id: string) => {
         try {
-            if (cookie) {
-                await axios.get(
-                    `${process.env.NEXT_PUBLIC_API_URL}api/user/accept/${id}`,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${cookie}`,
-                        },
-                    }
+                await axiosInstance.get(
+                    `api/user/accept/${id}`
+                    
                 );
-                // dispatch(getUser())
-                // dispatch(getUserData(params.id))
-            }
+                dispatch(getUser())
+                dispatch(getUserData(params.id))
         } catch (error) {
             console.log(error);
         }
     }
     const unAcceptNewFriend = async (id: string) => {
         try {
-            if (cookie) {
-                await axios.get(
-                    `${process.env.NEXT_PUBLIC_API_URL}api/user/unAccept/${id}`,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${cookie}`,
-                        },
-                    }
+                await axiosInstance.get(
+                    `api/user/unAccept/${id}`
                 );
-                // dispatch(getUser())
-                // dispatch(getUserData(params.id))
-            }
+                dispatch(getUser())
+                dispatch(getUserData(params.id))
         } catch (error) {
             console.log(error);
         }
     }
     useEffect(() => {
         socket.on('sent_notification', (data) => {
-            // dispatch(getUser())
+            dispatch(getUser())
         })
+        return () => {
+            socket.disconnect();
+          };
     }, [socket]);
     return (
         <>

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import style from "../styles/heading.module.scss";
 import Option from "./Option";
 import HeadingUser from "./HeadingUser";

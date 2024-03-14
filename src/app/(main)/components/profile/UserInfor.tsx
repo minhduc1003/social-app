@@ -1,16 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import style from "../../styles/profile/profile.module.scss";
 import { appSelecter, dispatchType } from "@/redux/configureStore";
 import { useDispatch } from "react-redux";
 import { openBasicInfo, openModal } from "@/redux/feature/modal";
 import ChangeBasicInfo from "./ChangeBasicInfo";
-import { getCookies } from "@/utils/cookies";
 import { useParams } from "next/navigation";
-import axios from "axios";
 import { getUserData } from "@/redux/feature/userSlice";
 import { getUser } from "@/redux/feature/authSlice";
 import { io } from "socket.io-client";
+import axiosInstance from "@/app/api/configAxios";
 
 const UserInfor = () => {
   const socket = io('http://localhost:3009', { transports: ['websocket'] });
@@ -18,42 +17,25 @@ const UserInfor = () => {
   const { userData } = appSelecter((state) => state.user);
   const { user } = appSelecter((state) => state.auth);
   const { isOpenBasicInfo } = appSelecter((state) => state.modal);
-  const cookie = getCookies();
   const params = useParams();
   const followUser = async () => {
     try {
-      if (cookie) {
-        await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}api/user/follow/${params.id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${cookie}`,
-            },
-          }
+        await axiosInstance.get(
+          `api/user/follow/${params.id}`
         );
         dispatch(getUser())
         dispatch(getUserData(params.id))
-      }
     } catch (error) {
       console.log(error);
     }
   }
   const unFollowUser = async () => {
     try {
-      if (cookie) {
-        await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}api/user/unfollow/${params.id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${cookie}`,
-            },
-          }
+        await axiosInstance.get(
+          `api/user/unfollow/${params.id}`
         );
         dispatch(getUser())
         dispatch(getUserData(params.id))
-      }
     } catch (error) {
       console.log(error);
     }
@@ -62,6 +44,9 @@ const UserInfor = () => {
     socket.on('sent_Accepted', (data) => {
       dispatch(getUser())
     })
+    return () => {
+      socket.disconnect();
+    };
   }, [socket]);
   return (
     <section className={style.userInfo}>

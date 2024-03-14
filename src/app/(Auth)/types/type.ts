@@ -10,7 +10,9 @@ export type user = {
   friend: friends[] | [];
   notification: notification[] | [];
   gender: string;
-  dayOfBirth: string;
+  dayOfBirth: Date;
+  location:string;
+  web:string;
 };
 export type notification = {
   name: string;

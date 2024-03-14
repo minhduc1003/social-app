@@ -1,14 +1,10 @@
 "use client";
-import React, { useState } from "react";
 import style from "../../styles/profile/profile.module.scss";
-import Modal from "../Modal";
 import ChangeDetailInfo from "./ChangeDetailInfo";
 import { useDispatch } from "react-redux";
 import { appSelecter, dispatchType } from "@/redux/configureStore";
 import { openChangeDetailProfile, openModal } from "@/redux/feature/modal";
-import axios from "axios";
-import { getCookies } from "@/utils/cookies";
-import { useParams } from "next/navigation";
+
 
 const DetaiInfo = () => {
   // const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -37,7 +33,7 @@ const DetaiInfo = () => {
                 />
               </svg>
             </span>
-            (<p>{userData?.web}</p>)
+            <a href={userData?.web} target="_blank">{userData?.web}</a>
           </div>
         )}
         {userData?.gender && (
@@ -110,7 +106,18 @@ const DetaiInfo = () => {
             <p>{userData?.location}</p>
           </div>
         )}
-        {userData?.followers && (
+        {userData?.phone && (
+          <div className={style.item}>
+            <span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+</svg>
+
+            </span>
+            <p>{userData?.phone}</p>
+          </div>
+        )}
+        {/* {userData?.followers && (
           <p className={style.follow}>
             <span>{userData?.followers.length}</span> Followers
           </p>
@@ -119,7 +126,7 @@ const DetaiInfo = () => {
           <p className={style.follow}>
             <span>{userData?.followings.length}</span> Following
           </p>
-        )}
+        )} */}
         {user?._id === userData?._id && (<div
           className={style.editBtn}
           onClick={() => {

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import  { ReactNode } from "react";
 import style from "../styles/button.module.scss";
 type Props = {
   onClick?: (e: any) => Promise<void>;

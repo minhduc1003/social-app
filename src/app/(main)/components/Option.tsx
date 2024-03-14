@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import style from "../styles/heading.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { changeMenuActive } from "@/redux/feature/globalSlice";

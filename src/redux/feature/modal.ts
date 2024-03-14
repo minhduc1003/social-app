@@ -5,7 +5,10 @@ type TModalsAction = {
   isOpenAddArticle: boolean;
   isOpenChangeDetailProfile: boolean;
   isOpenBasicInfo: boolean;
+  isOpenShareArticle:boolean,
+  idShareArticle:string
 };
+
 export const modalSlice = createSlice({
   name: "modal",
   initialState: {
@@ -14,6 +17,8 @@ export const modalSlice = createSlice({
     isOpenAddArticle: false,
     isOpenChangeDetailProfile: false,
     isOpenBasicInfo: false,
+    isOpenShareArticle:false,
+    idShareArticle:"",
   } as TModalsAction,
   reducers: {
     openModal: (state, action: PayloadAction<boolean>) => ({
@@ -36,6 +41,14 @@ export const modalSlice = createSlice({
       ...state,
       isOpenBasicInfo: action.payload,
     }),
+    openShareArticle: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      isOpenShareArticle:action.payload,
+    }),
+    idShare: (state, action: PayloadAction<string>) => ({
+      ...state,
+      idShareArticle:action.payload,
+    }),
   },
 });
 export const {
@@ -44,5 +57,7 @@ export const {
   openAddArticle,
   openChangeDetailProfile,
   openBasicInfo,
+  openShareArticle,
+  idShare
 } = modalSlice.actions;
 export default modalSlice.reducer;

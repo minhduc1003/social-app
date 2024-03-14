@@ -1,35 +1,40 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import  {  useEffect, useRef, useState } from "react";
 import Modal from "../Modal";
 import style from "../../styles/profile/profile.module.scss";
 import Button from "../Button";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { getCookies } from "@/utils/cookies";
+import axiosInstance from "@/app/api/configAxios";
+import { useDispatch } from "react-redux";
+import {dispatchType } from "@/redux/configureStore";
+import { openBasicInfo, openModal } from "@/redux/feature/modal";
+import { getUserData } from "@/redux/feature/userSlice";
+import { useParams } from "next/navigation";
 const ChangeBasicInfo = () => {
   const [text, setText] = useState<string | undefined>(undefined);
-  const [data, setData] = useState<string | undefined>(undefined);
+  const [data, setData] = useState<string | undefined|any>(undefined);
   const editable = useRef<HTMLDivElement | null>(null);
-  const cookie = getCookies();
+  const dispatch = useDispatch<dispatchType>();
+  const params = useParams();
   const handleUpdate = async () => {
     try {
-      const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}api/user/updateuser`,
+       await axiosInstance.patch(
+        `api/user/updateuser`,
         {
-          bio: text,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie}`,
-          },
+          bio: text
         }
-      );
-      setData(res.bio);
+      ).then((res:any)=>{
+        dispatch(getUserData(params.id))
+        dispatch(openBasicInfo(false));
+        dispatch(openModal(false));
+        setData(res.bio);
+      });
       toast.success("bio updated successfully");
     } catch (error) {
       toast.error("error updating bio");
     }
   };
+
   return (
     <Modal>
       <h2>Edit Basic Infor</h2>

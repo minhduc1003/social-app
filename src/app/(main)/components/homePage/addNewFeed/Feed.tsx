@@ -1,45 +1,38 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import style from "../../../styles/homePageStyle/feed.module.scss";
 import FeedOptions from "./FeedOptions";
-import { appSelecter } from "@/redux/configureStore";
+import { appSelecter, dispatchType } from "@/redux/configureStore";
 import Image from "next/image";
 import { TArticle } from "@/redux/saga/article/type";
-import axios from "axios";
-import { getCookies } from "@/utils/cookies";
+import FeedInformation from "./FeedInformation";
+import { useDispatch } from "react-redux";
+import { getArticles } from "@/redux/feature/articleSlice";
+import axiosInstance from "@/app/api/configAxios";
+import { idShare, openModal, openShareArticle } from "@/redux/feature/modal";
+import ModalShare from "./ModalShare";
 
 const Feed = ({ Id }: { Id: string | null | undefined }) => {
   const [post, setPost] = useState<TArticle>([]);
+  const [text, setText] = useState<string>("");
+  const dispatch = useDispatch<dispatchType>();
   const { user } = appSelecter((state) => state.auth);
-  const cookie = getCookies();
+  const trimUserData ={
+    name: user?.name,
+    image: user?.photo,
+  }
   const { article } = appSelecter((state) => state.article);
   const getPostById = async (postId: string) => {
-    if (cookie) {
-      const data = await axios.get<TArticle>(
-        `${process.env.NEXT_PUBLIC_API_URL}api/post/getPost/${postId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${cookie}`,
-          },
-        }
+      const data = await axiosInstance.get<TArticle>(
+        `api/post/getPost/${postId}`
       ).then(response =>
         setPost(response.data)
-
       )
-    }
   }
   const handleLike = async (id: string) => {
-    if (cookie) {
       try {
-        await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}api/post/likes/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${cookie}`,
-            },
-          }
+        await axiosInstance.get(
+          `api/post/likes/${id}`,
         ).then(response => {
           console.log(response.data);
           let arrayForSort = [...post]
@@ -53,14 +46,40 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
       } catch (error) {
         console.log(error);
       }
+  }
+  const handleShare =  (id: string) => {
+    dispatch(openModal(true));
+    dispatch(openShareArticle(true));
+    dispatch(idShare(id));
+    console.log(1);
+
+    // try {
+    //   await axiosInstance.get(
+    //     `api/post/share/${id}`,
+    //   ).then(response => {
+    //     console.log(response.data);
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+}
+  const handleComment = async (id:string)=>{
+    try {
+      await axiosInstance.post(
+        `api/post/comments`,{
+          id,
+          text,
+          user:trimUserData
+        }
+      ).then(()=>{
+        dispatch(getArticles())
+        setText("")
+      })
+    } catch (error:any) {
+      console.log(error.message );
     }
   }
 
-
-  function formatDate(d: string) {
-    let date = new Date(d);
-    return `${date.getDate()}/${date.getMonth()} ${date.getHours()}:${date.getMinutes()}`;
-  }
   useEffect(() => {
     if (Id && Id !== undefined) {
       setPost(() => getPostById(Id) as never)
@@ -70,20 +89,14 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
   }, [Id, article])
   return (
     <>
+
+      <ModalShare data={user}></ModalShare>
       {post.length > 0 &&
         post.toReversed().map((data, index) => (
           <div key={data._id} className={style.wrap}>
             <div className={style.wrapTop}>
-              <div className={style.wrapTopLeft}>
-                <div className={style.avatarWrap}>
-                  <img src={user?.photo} alt="ava" />
-                </div>
-                <div className={style.wrapText}>
-                  <h3>{user?.name}</h3>
-                  <p>{data?.createdAt && formatDate(data?.createdAt)}</p>
-                </div>
-              </div>
-              <FeedOptions></FeedOptions>
+             <FeedInformation id={data.userId} time={data?.createdAt}></FeedInformation>
+             {data.userId==user?._id && <FeedOptions id={data._id}></FeedOptions>}
             </div>
             <div className={style.wrapCenter}>
               {data?.text && (
@@ -104,7 +117,7 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
             </div>
             <div className={style.contentDetail}>
               <p>
-                <span>10</span>
+                <span>{data?.comments.length}</span>
                 Comments
               </p>
               <p>
@@ -151,7 +164,7 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                   </span>
                   <p>Comments</p>
                 </div>
-                <div className={style.communicateItem}>
+                <div className={style.communicateItem} onClick={()=>handleShare(data?._id as string)}>
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -172,6 +185,20 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
               </div>
               <div className={style.line}></div>
             </div>
+            {
+              data?.comments.length>0 && data?.comments.map((comment:any,index) =>(
+                <div key={index} className={style.commentText}>
+              <div className={style.avatarWrap}>
+                <img src={comment?.user?.image} alt="ava" />
+              </div>
+              <div className={style.showComment}>
+                <h3>{comment?.user?.name}</h3>
+                <p>{comment?.text}</p>
+
+              </div>
+            </div>
+              ))
+            }
             <div className={style.commentText}>
               <div className={style.avatarWrap}>
                 <img src={user?.photo} alt="ava" />
@@ -181,9 +208,11 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                 type="text"
                 name=""
                 id=""
+                // value={text}
                 className={style.inputText}
+                onChange={(e)=>setText(e.target.value)}
               />
-              <div className={style.buttonSentComment}>
+              <div className={style.buttonSentComment} onClick={()=>handleComment(data._id)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

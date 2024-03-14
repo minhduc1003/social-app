@@ -1,9 +1,15 @@
-import React, { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import style from "../../styles/profile/profile.module.scss";
-type Props = { des: string; children: ReactNode; onClick: () => void };
-const AddDes = ({ des, onClick, children }: Props) => {
+type Props = { des: string;value:string|Date|undefined; children: ReactNode; onClick: () => void };
+const AddDes = ({ des, onClick,value, children }: Props) => {
   const [open, setIsOpen] = useState<boolean>(false);
-
+  useEffect(()=>{
+    if(value !== ""&& value !==undefined){
+      setIsOpen(true);
+    }else{
+      setIsOpen(false);
+    }
+  },[value])
   return (
     <>
       <div

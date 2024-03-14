@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import ProfilePic from "../../components/profile/ProfilePic";
 import UserInfor from "../../components/profile/UserInfor";
 import AddNewFeed from "../../components/homePage/addNewFeed/AddNewFeed";
@@ -13,10 +13,9 @@ import style from "../../styles/profile/profile.module.scss";
 const Profile = () => {
   const dispatch = useDispatch<dispatchType>();
   const { user } = appSelecter((state) => state.auth);
-  const { isLoadingUserData } = appSelecter((state) => state.user);
   const params = useParams();
   useEffect(() => {
-    // dispatch(getUserData(params.id));
+    dispatch(getUserData(params.id));
   }, []);
   return (
     <>

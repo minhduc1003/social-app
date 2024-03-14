@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import style from "../../../styles/homePageStyle/addNewFeed/addNewFeed.module.scss";
 import { appSelecter, dispatchType } from "@/redux/configureStore";
 import ModalAddNew from "./ModalAddNew";
@@ -9,7 +8,6 @@ import { openAddArticle, openImage, openModal } from "@/redux/feature/modal";
 const AddNewFeed = () => {
   const { user } = appSelecter((state) => state.auth);
   const dispatch = useDispatch<dispatchType>();
-  const { isOpenImage, isOpenModal } = appSelecter((state) => state.modal);
   return (
     <div className={style.wrap}>
       <div className={style.topWrap}>

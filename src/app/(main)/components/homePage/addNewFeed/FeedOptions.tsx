@@ -1,8 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import style from "../../../styles/homePageStyle/feed.module.scss";
-const FeedOptions = () => {
+import { useDispatch } from "react-redux";
+import { dispatchType } from "@/redux/configureStore";
+import { getArticles } from "@/redux/feature/articleSlice";
+import axiosInstance from "@/app/api/configAxios";
+const FeedOptions = ({id}:{id:string}) => {
   const [open, setOpen] = useState<boolean>(false);
+  const dispatch = useDispatch<dispatchType>();
+  const handleDelete = async()=>{
+    await axiosInstance.delete(`api/post/delete/${id}`).then(()=>{
+      dispatch(getArticles())
+    })
+  }
   return (
     <div className={style.wrapOption} onClick={() => setOpen(!open)}>
       <span>
@@ -22,7 +32,7 @@ const FeedOptions = () => {
       </span>
       {open && (
         <div className={style.options}>
-          <div className={style.optionchild}>
+          <div className={style.optionchild} onClick={handleDelete}>
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -39,45 +49,7 @@ const FeedOptions = () => {
                 />
               </svg>
             </span>
-            <p>Hide Post</p>
-          </div>
-          <div className={style.optionchild}>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                />
-              </svg>
-            </span>
-            <p>Report</p>
-          </div>
-          <div className={style.optionchild}>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
-                />
-              </svg>
-            </span>
-            <p>Unfollow</p>
+            <p>Delete Post</p>
           </div>
         </div>
       )}

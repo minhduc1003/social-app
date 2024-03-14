@@ -1,10 +1,7 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import  {useRef, useState } from "react";
 import style from "../../../styles/homePageStyle/addNewFeed/addNewFeed.module.scss";
 import useClickOutside from "@/hooks/useClickOutSide";
-import { user } from "@/redux/saga/auth/type";
-import axios from "axios";
-import { getCookies } from "@/utils/cookies";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { appSelecter, dispatchType } from "@/redux/configureStore";
@@ -13,16 +10,17 @@ import Modal from "../../Modal";
 import Button from "../../Button";
 import { getArticles } from "@/redux/feature/articleSlice";
 import { useBeforeunload } from 'react-beforeunload';
+import axiosInstance from "@/app/api/configAxios";
+import { user } from "@/app/(Auth)/types/type";
 const ModalAddNew = ({ data }: { data: user | undefined }) => {
   const dispatch = useDispatch<dispatchType>();
   const { isOpenImage, isOpenModal, isOpenAddArticle } = appSelecter(
     (state) => state.modal
   );
-  const [text, setText] = useState<string | "">("");
+  const [text, setText] = useState<any>("");
   const [imageId, setImageId] = useState<string | undefined>(undefined);
   const divRef = useRef<HTMLDivElement | null>(null);
   const editable = useRef<HTMLDivElement | null>(null);
-  const cookie = getCookies();
 
   useClickOutside(divRef, () => dispatch(openModal(false)));
   if (typeof document !== "undefined") {
@@ -38,15 +36,9 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
       const image = e.target.files[0];
       const data = new FormData();
       data.append("image", image);
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}api/post/image`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${cookie}`,
-          },
-        }
+      const res = await axiosInstance.post(
+        `$api/post/image`,
+        data
       );
       toast.success("upload successfully");
       setImageId(res.data.imageId);
@@ -54,16 +46,11 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
   };
   const handleUpload = async (e: any) => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}api/post/upload/${imageId ? imageId : ""
+      await axiosInstance.post(
+        `api/post/upload/${imageId ? imageId : ""
         }`,
         {
           text,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie}`,
-          },
         }
       );
       toast.success("upload successfully");

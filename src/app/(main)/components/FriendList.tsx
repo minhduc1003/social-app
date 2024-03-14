@@ -1,15 +1,27 @@
 'use client'
-import React from "react";
+import  { useEffect, useState } from "react";
 import style from "../styles/homePageStyle/friendsList.module.scss";
 import { appSelecter } from "@/redux/configureStore";
 import { useRouter } from "next/navigation";
 const FriendList = () => {
   const { user } = appSelecter((state) => state.auth);
+  const [dataFilter,setDataFilter]= useState<any>([]);
+  const [filterData,setFilterData] = useState("")
+ 
   const router = useRouter();
+
+  useEffect(()=>{
+    if(filterData!==""){
+      setDataFilter(user?.friend as never &&user?.friend.filter((item:any)=>item.name.includes(filterData)));
+    }else{
+      setDataFilter(user?.friend as never)
+    }
+  },[user, filterData])
+
   return (
     <aside className={style.aside}>
       <div className={style.inputWrap}>
-        <input type="text" placeholder="Search friends!" />
+        <input type="text" placeholder="Search friends!" onChange={(e:any)=>setFilterData(e.target.value)} />
         <span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,8 +39,8 @@ const FriendList = () => {
         </span>
       </div>
       <div className={style.friendList}>
-        {user?.friend && user.friend
-          .map((item, index) => (
+        {dataFilter && dataFilter
+          .map((item:any, index:any) => (
             <div key={index} className={style.friendItem} onClick={() => router.push(`messages/${item.userId}`)}>
               <div className={style.friendImageWrap}>
                 <img src={item.image} alt="avata" />
