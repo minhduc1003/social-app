@@ -5,7 +5,7 @@ import useClickOutside from "@/hooks/useClickOutSide";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { appSelecter, dispatchType } from "@/redux/configureStore";
-import { openAddArticle, openImage, openModal, openShareArticle } from "@/redux/feature/modal";
+import { openModal, openShareArticle } from "@/redux/feature/modal";
 import Modal from "../../Modal";
 import Button from "../../Button";
 import { getArticles } from "@/redux/feature/articleSlice";
@@ -13,11 +13,10 @@ import { useBeforeunload } from 'react-beforeunload';
 import axiosInstance from "@/app/api/configAxios";
 import { user } from "@/app/(Auth)/types/type";
 import FeedInformation from "./FeedInformation";
-import FeedOptions from "./FeedOptions";
 import Image from "next/image";
 const ModalShare = ({ data }: { data: user | undefined}) => {
   const dispatch = useDispatch<dispatchType>();
-  const { isOpenImage, isOpenModal, isOpenAddArticle,isOpenShareArticle,idShareArticle } = appSelecter(
+  const { isOpenModal, isOpenShareArticle,idShareArticle } = appSelecter(
     (state) => state.modal
   );
   const [text, setText] = useState<any>("");
@@ -25,14 +24,37 @@ const ModalShare = ({ data }: { data: user | undefined}) => {
   const divRef = useRef<HTMLDivElement | null>(null);
   const editable = useRef<HTMLDivElement | null>(null);
   const [dataShare,setDataShare] = useState<any>({});
+
   useClickOutside(divRef, () => dispatch(openModal(false)));
+  function enableBodyScroll() {
+    if (document.readyState === 'complete') {
+      document.body.style.position = '';
+      document.body.style.overflowY = '';
+  
+      if (document.body.style.marginTop) {
+        const scrollTop = -parseInt(document.body.style.marginTop, 10);
+        document.body.style.marginTop = '';
+        window.scrollTo( Number(localStorage.getItem('height'))  , scrollTop);
+      }
+    } else {
+      window.addEventListener('load', enableBodyScroll);
+    }
+  }
+  
+  function disableBodyScroll({ savePosition = false } = {}) {
+    if (document.readyState === 'complete') {
+      if (document.body.scrollHeight > window.innerHeight) {
+        if (savePosition) document.body.style.marginTop = `-${ localStorage.getItem('height') }px`;
+        document.body.style.position = 'fixed';
+        document.body.style.overflowY = 'scroll';
+        document.body.style.width = '100%';
+      }
+    } else {
+      window.addEventListener('load', () => disableBodyScroll({ savePosition }));
+    }
+  }
   if (typeof document !== "undefined") {
-    let getBody = document.querySelector("body");
-    isOpenModal
-      ? getBody?.classList.add(style.openModalClass)
-      : document.getElementsByClassName(style.openModalClass)
-        ? getBody?.classList.remove(style.openModalClass)
-        : null;
+    isOpenModal?disableBodyScroll({savePosition : true}):enableBodyScroll()
   }
   const handleUpload = async (e: any) => {
     try {
@@ -41,6 +63,7 @@ const ModalShare = ({ data }: { data: user | undefined}) => {
         }`,
         {
           text,
+          share: dataShare
         }
       );
       toast.success("upload successfully");

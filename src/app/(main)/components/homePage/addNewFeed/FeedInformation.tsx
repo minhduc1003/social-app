@@ -19,7 +19,7 @@ const FeedInformation = ({id,time}:{id:any,time:any}) => {
                });
              }
         getdata()
-    },[])
+    },[id])
     return (
         <div className={style.wrapTopLeft}>
         <div className={style.avatarWrap}>

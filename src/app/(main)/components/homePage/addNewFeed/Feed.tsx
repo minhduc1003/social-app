@@ -51,7 +51,7 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
     dispatch(openModal(true));
     dispatch(openShareArticle(true));
     dispatch(idShare(id));
-    console.log(1);
+   localStorage.setItem("height",`${window.scrollY}`);
 
     // try {
     //   await axiosInstance.get(
@@ -114,6 +114,30 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                   />
                 </div>
               )}
+               {data?.share && (
+                    <div className={style.wrap}>
+                    <div className={style.wrapTop}>
+                       <FeedInformation id={data?.share.userId} time={data?.share?.createdAt}></FeedInformation>
+                      </div>
+                      <div className={style.wrapCenter}>
+                        {data?.share?.text && (
+                          <div className={style.content}>
+                            <p>{data?.share?.text}</p>
+                          </div>
+                        )}
+                        {data?.share?.image && (
+                          <div className={style.contentImage}>
+                            <Image
+                              src={data?.share?.image?.url}
+                              alt="img"
+                              layout="fill"
+                              objectFit="contain"
+                            />
+                          </div>
+                        )}
+                      </div>
+                  </div>
+              )}
             </div>
             <div className={style.contentDetail}>
               <p>
@@ -164,7 +188,7 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                   </span>
                   <p>Comments</p>
                 </div>
-                <div className={style.communicateItem} onClick={()=>handleShare(data?._id as string)}>
+                <div className={style.communicateItem} onClick={()=>handleShare(data?.share?._id||data?._id as string)}>
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

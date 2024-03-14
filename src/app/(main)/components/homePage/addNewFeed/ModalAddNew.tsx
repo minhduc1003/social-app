@@ -23,14 +23,6 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
   const editable = useRef<HTMLDivElement | null>(null);
 
   useClickOutside(divRef, () => dispatch(openModal(false)));
-  if (typeof document !== "undefined") {
-    let getBody = document.querySelector("body");
-    isOpenModal
-      ? getBody?.classList.add(style.openModalClass)
-      : document.getElementsByClassName(style.openModalClass)
-        ? getBody?.classList.remove(style.openModalClass)
-        : null;
-  }
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const image = e.target.files[0];
@@ -73,6 +65,7 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
           dispatch(openModal(true));
           dispatch(openAddArticle(true));
           dispatch(openImage(false));
+          localStorage.setItem("height",`${window.scrollY}`)
         }}
       >
         <p>What is happening?</p>
