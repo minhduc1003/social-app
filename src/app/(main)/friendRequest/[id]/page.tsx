@@ -10,6 +10,7 @@ import { getUserData } from "@/redux/feature/userSlice";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import axiosInstance from "@/app/api/configAxios";
+import Image from "next/image";
 const Notification = () => {
     const socket = io('http://localhost:3009', { transports: ['websocket'] });
     const { user } = appSelecter((state) => state.auth);
@@ -52,7 +53,13 @@ const Notification = () => {
                 {user?.notification && user?.notification.length > 0 && user?.notification.map((item, i) => (
                     <div key={i} className={style.notiItem}>
                         <div className={style.imageWrapper}>
-                            <img src={item.image} alt="" />
+                        <Image
+                            src={item.image||''}
+                            alt="img"
+                            fill
+                            sizes='(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px'
+                            style={{objectFit:"cover"}}
+                            />
                         </div>
                         <div className={style.textWrapper}>
                             <h3>{item.name}</h3>

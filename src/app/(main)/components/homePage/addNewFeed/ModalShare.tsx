@@ -76,6 +76,11 @@ const ModalShare = ({ data }: { data: user | undefined}) => {
       toast.error("upload failed");
     }
   };
+  const handleClose = () => {
+    enableBodyScroll()
+    dispatch(openModal(false))
+    dispatch(openShareArticle(false));
+  }
   useBeforeunload(text !== '' ? (event) => event.preventDefault() : undefined);
   useEffect(() => {
     const fetchPostById = async()=>{
@@ -96,12 +101,7 @@ const ModalShare = ({ data }: { data: user | undefined}) => {
             <div className={style.center}>Share a Post</div>
             <div
               className={style.right}
-              onClick={() =>
-                dispatch(() => {
-                  openModal(false);
-                  dispatch(openShareArticle(false));
-                })
-              }
+              onClick={handleClose}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +134,6 @@ const ModalShare = ({ data }: { data: user | undefined}) => {
               data-text={"What is happening?"}
               onInput={() => {
                 setText(editable.current?.innerHTML)
-                console.log(editable.current?.innerHTML);
               }}
             ></div>
           </div>

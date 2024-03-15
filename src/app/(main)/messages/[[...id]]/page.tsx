@@ -8,6 +8,7 @@ import io from 'socket.io-client'
 import { useParams } from "next/navigation";
 import { getUserData } from '@/redux/feature/userSlice';
 import axiosInstance from '@/app/api/configAxios';
+import { useRouter } from 'next/navigation';
 const Messages = () => {
     const socket = io('http://localhost:3009', { transports: ['websocket'] });
     const { user } = appSelecter((state) => state.auth);
@@ -15,7 +16,7 @@ const Messages = () => {
 
     const dispatch = useDispatch<dispatchType>();
     const [message, setMessage] = useState<string>('')
-
+    const router = useRouter();
     const [renderMessage, setRenderMessage] = useState<any>([])
     const [arrivalMessage, setArrivalMessage] = useState<any>(null);
     const params = useParams();
@@ -23,7 +24,6 @@ const Messages = () => {
     useEffect(() => {
 
         socket.on("getMessage", (data) => {
-            console.log(data);
             setArrivalMessage({
                 sender: data.senderId,
                 text: data.text,
@@ -40,7 +40,6 @@ const Messages = () => {
     useEffect(() => {
         arrivalMessage &&
             setRenderMessage((prev: any) => [...prev, arrivalMessage]);
-        console.log(renderMessage);
     }, [arrivalMessage, user?._id]);
     useEffect(() => {
         if (params.id && params.id.length > 0) {
@@ -72,11 +71,11 @@ const Messages = () => {
     useEffect(() => {
         const getMessage = async () => {
             try {
-
+                if(params.id!==undefined) {
                 await axiosInstance.get(`api/message/${user?._id}/${params.id[0]}`).then((res) => {
                     setRenderMessage(res.data);
-
                 })
+                }
             }
             catch (error) {
                 console.log(error);
@@ -140,7 +139,15 @@ const Messages = () => {
                 Object.keys(params).length === 0 && (
                     <section className={style.container}>
 
-                        <p className={style.textWarning}>Pick a friend to chat</p>
+                        <h2 className={style.textWarning}>Pick a friend to chat</h2>
+                        <div className={style.pickChat}>
+                        {user?.friend.map((item,i)=>(
+                            <div key={i} className={style.chatItem} onClick={() => router.push(`messages/${item.userId}`)}>
+                                <div className={style.imageWrapper}><img src={item.image} alt="" /></div>
+                                <p>{item.name}</p>
+                            </div>
+                        ))}
+                        </div>
                     </section>
                 )}
             <FriendList />

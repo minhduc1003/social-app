@@ -2,6 +2,7 @@ import  { useEffect, useState } from 'react';
 import style from "../../../styles/homePageStyle/feed.module.scss";
 import { user } from '@/app/(Auth)/types/type';
 import axiosInstance from '@/app/api/configAxios';
+import Image from 'next/image';
 
 const FeedInformation = ({id,time}:{id:any,time:any}) => {
     const [data,setData] = useState<user>()
@@ -23,7 +24,13 @@ const FeedInformation = ({id,time}:{id:any,time:any}) => {
     return (
         <div className={style.wrapTopLeft}>
         <div className={style.avatarWrap}>
-          <img src={data?.photo} alt="ava" />
+        <Image
+           src={data?.photo||'/ava.png'}
+            alt="img"
+           fill
+           sizes='(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px'
+            style={{objectFit:"cover"}}
+            />
         </div>
         <div className={style.wrapText}>
           <h3>{data?.name}</h3>

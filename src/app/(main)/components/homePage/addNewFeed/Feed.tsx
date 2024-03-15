@@ -17,6 +17,7 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
   const [text, setText] = useState<string>("");
   const dispatch = useDispatch<dispatchType>();
   const { user } = appSelecter((state) => state.auth);
+  const { idShareArticle } = appSelecter((state) => state.modal);
   const trimUserData ={
     name: user?.name,
     image: user?.photo,
@@ -34,7 +35,6 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
         await axiosInstance.get(
           `api/post/likes/${id}`,
         ).then(response => {
-          console.log(response.data);
           let arrayForSort = [...post]
           arrayForSort.forEach((element, index) => {
             if (element._id === response?.data._id) {
@@ -52,16 +52,6 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
     dispatch(openShareArticle(true));
     dispatch(idShare(id));
    localStorage.setItem("height",`${window.scrollY}`);
-
-    // try {
-    //   await axiosInstance.get(
-    //     `api/post/share/${id}`,
-    //   ).then(response => {
-    //     console.log(response.data);
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
 }
   const handleComment = async (id:string)=>{
     try {
@@ -90,7 +80,7 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
   return (
     <>
 
-      <ModalShare data={user}></ModalShare>
+      {idShareArticle&&<ModalShare data={user}></ModalShare>}  
       {post.length > 0 &&
         post.toReversed().map((data, index) => (
           <div key={data._id} className={style.wrap}>
@@ -109,8 +99,9 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                   <Image
                     src={data?.image?.url}
                     alt="img"
-                    layout="fill"
-                    objectFit="contain"
+                    fill
+                    sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px"
+                    style={{objectFit:"contain"}}
                   />
                 </div>
               )}
@@ -131,7 +122,7 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                               src={data?.share?.image?.url}
                               alt="img"
                               layout="fill"
-                              objectFit="contain"
+                              style={{objectFit:"contain"}}
                             />
                           </div>
                         )}
@@ -213,7 +204,13 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
               data?.comments.length>0 && data?.comments.map((comment:any,index) =>(
                 <div key={index} className={style.commentText}>
               <div className={style.avatarWrap}>
-                <img src={comment?.user?.image} alt="ava" />
+                <Image
+                  src={comment?.user?.image||'/ava.png'}
+                  alt="img"
+                  fill
+                  sizes='(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px'
+                  style={{objectFit:"cover"}}
+                />
               </div>
               <div className={style.showComment}>
                 <h3>{comment?.user?.name}</h3>
@@ -225,7 +222,13 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
             }
             <div className={style.commentText}>
               <div className={style.avatarWrap}>
-                <img src={user?.photo} alt="ava" />
+              <Image
+                 src={user?.photo||'/ava.png'}
+                 alt="img"
+                 fill
+                 sizes='(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px'
+                 style={{objectFit:"cover"}}
+              />
               </div>
               <input
                 placeholder="write a comment..."

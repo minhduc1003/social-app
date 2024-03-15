@@ -115,7 +115,6 @@ const ModalAddNew = ({ data }: { data: user | undefined }) => {
               data-text={"What is happening?"}
               onInput={() => {
                 setText(editable.current?.innerHTML)
-                console.log(editable.current?.innerHTML);
               }}
             ></div>
             {isOpenImage && (

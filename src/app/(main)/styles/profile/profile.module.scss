@@ -75,7 +75,7 @@
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 100px;
-
+  padding: 20px;
   .wrapArticle {
     max-width: 800px;
     width: 100%;
@@ -193,4 +193,15 @@
     align-items: center;
     gap: 12px;
   }
+}
+@media screen and (min-width: 1000px) and (max-width: 1200px) {
+
+}
+@media screen and (min-width: 375px) and (max-width: 1250px) {
+  .detailProfile{
+    display: block;
+  }
+}
+@media screen and (min-width: 1000px) and (max-width: 1400px) {
+
 }

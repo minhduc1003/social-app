@@ -3,6 +3,7 @@ import  { useEffect, useState } from "react";
 import style from "../styles/homePageStyle/friendsList.module.scss";
 import { appSelecter } from "@/redux/configureStore";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 const FriendList = () => {
   const { user } = appSelecter((state) => state.auth);
   const [dataFilter,setDataFilter]= useState<any>([]);
@@ -43,7 +44,13 @@ const FriendList = () => {
           .map((item:any, index:any) => (
             <div key={index} className={style.friendItem} onClick={() => router.push(`messages/${item.userId}`)}>
               <div className={style.friendImageWrap}>
-                <img src={item.image} alt="avata" />
+                <Image
+                src={item.image||'/ava.png'}
+                alt="img"
+                fill
+                sizes='(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px'
+                style={{objectFit:"cover"}}
+                />
               </div>
               <p>{item.name}</p>
             </div>

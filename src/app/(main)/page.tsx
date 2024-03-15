@@ -6,7 +6,7 @@ import WrapMainLayout from "./components/homePage/WrapMainLayout";
 export default function Home() {
   return (
     <>
-      <section style={{ borderRadius: "41px", backgroundColor: "#f9fafb" }}>
+      <section style={{ borderRadius: "41px", backgroundColor: "#f9fafb", padding:'20px' }}>
         <div style={{ maxWidth: "660px", margin: "0 auto", width: "100%" }}>
           <AddNewFeed></AddNewFeed>
           <Feed Id={undefined}></Feed>

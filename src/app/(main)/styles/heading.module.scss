@@ -105,14 +105,14 @@
   }
 }
 
-@media screen and (min-width: 900px) and (max-width: 1100px) {
+@media screen and (min-width: 1000px) and (max-width: 1100px) {
   .logoWrap {
     width: 250px;
   }
 
   .headingRight {
     input {
-      width: 100%;
+      width: 85%;
     }
   }
 
@@ -123,7 +123,7 @@
   }
 }
 
-@media screen and (min-width: 728px) and (max-width: 899px) {
+@media screen and (min-width: 728px) and (max-width: 999px) {
   .logoWrap {
     width: 200px;
 
@@ -149,44 +149,22 @@
   }
 }
 
-@media screen and (min-width: 375px) and (max-width: 727px) {
+@media screen and (min-width: 375px) and (max-width: 1000px) {
   .logoWrap {
-    width: 9.375rem;
-
-    img {
-      width: 9.375rem;
-      height: 2.5rem;
-      object-fit: cover;
-    }
+    display: none;
   }
 
   .headingleft {
     display: flex;
-
+    margin-right: 20px;
     .option {
       display: block;
     }
   }
-
-  .headerWrap {
-    justify-content: space-between;
-  }
-
   .headingRight {
-    flex: 0 0;
-  }
-
-  input {
-    // width: 300px;
-    // padding: 10px 10px 10px 45px;
-    // border-radius: 7px;
-    // display: none;
-  }
-
-  .inputWrap {
-    display: none;
-
-    // visibility: hidden;
+    input {
+      width: 90%;
+    }
   }
 
   .userWrap {

@@ -8,7 +8,6 @@ type data = {
 export default function* handleGetArticles() {
   try {
     const res: data = yield call(getArticlesApi);
-    console.log(res);
     yield put(updateArticles(res.data));
   } catch (error) {
     console.log(error);

@@ -18,7 +18,7 @@ export function MenuLink({ navLinks }: { navLinks: menu }) {
   return (
     <>
       {navLinks.map((link) => {
-        const isActive = pathname === link.to;
+        const isActive =link.to!="/"?pathname.includes(link.to):pathname ===link.to;
         if (link.name === "Logout") {
           return (
             <div key={link.name} className={style.menuBlock} onClick={handleLogout}> {link.name}</div>
