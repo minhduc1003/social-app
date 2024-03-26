@@ -11,28 +11,38 @@ export function MenuLink({ navLinks }: { navLinks: menu }) {
   const pathname = usePathname();
   const router = useRouter();
   const handleLogout = async () => {
-    await axios.get('http://localhost:3009/api/user/logout')
-    deleteCookies()
-    router.push('/login')
-  }
+    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}api/user/logout`);
+    deleteCookies();
+    router.push("/login");
+  };
   return (
     <>
       {navLinks.map((link) => {
-        const isActive =link.to!="/"?pathname.includes(link.to):pathname ===link.to;
+        const isActive =
+          link.to != "/" ? pathname.includes(link.to) : pathname === link.to;
         if (link.name === "Logout") {
           return (
-            <div key={link.name} className={style.menuBlock} onClick={handleLogout}> {link.name}</div>
-          )
+            <div
+              key={link.name}
+              className={style.menuBlock}
+              onClick={handleLogout}
+            >
+              {" "}
+              {link.name}
+            </div>
+          );
         } else {
           return (
             <Link
-              className={isActive ? `${style.menuActive}` : `${style.menuBlock}`}
+              className={
+                isActive ? `${style.menuActive}` : `${style.menuBlock}`
+              }
               href={link.to}
               key={link.name}
             >
               {link.name}
             </Link>
-          )
+          );
         }
       })}
     </>

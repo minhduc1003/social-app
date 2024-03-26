@@ -1,171 +1,174 @@
 .container {
-    border-radius: 41px;
-    background-color: #f9fafb;
+  border-radius: 41px;
+  background-color: #f9fafb;
 
-    .textWarning {
-        font-size: 30px;
-        font-weight: 600;
-        color: #333333;
-        margin: 0;
-        padding: 20px;
+  .textWarning {
+    font-size: 30px;
+    font-weight: 600;
+    color: #333333;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .itemContainer {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .top {
+      padding: 20px;
+      border-bottom: 1px solid gray;
+
+      .userWrap {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+
+        p {
+          font-weight: 600;
+        }
+
+        div {
+          width: 50px;
+          height: 50px;
+          border-radius: 100%;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+          }
+        }
+      }
     }
 
-    .itemContainer {
-        margin: 0 auto;
-        width: 100%;
+    .center {
+      flex-grow: 1;
+      overflow: auto;
+      height: 500px;
+      padding: 20px;
+
+      .message {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        margin-top: 20px;
+      }
 
-        .top {
-            padding: 20px;
-            border-bottom: 1px solid gray;
-
-            .userWrap {
-                display: flex;
-                align-items: center;
-                gap: 0.625rem;
-
-
-                p {
-                    font-weight: 600;
-                }
-
-                div {
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 100%;
-
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        border-radius: inherit;
-                    }
-                }
-
-            }
-        }
-
-        .center {
-            flex-grow: 1;
-            overflow: auto;
-            height: 500px;
-            padding: 20px;
-
-            .message {
-                display: flex;
-                flex-direction: column;
-                margin-top: 20px;
-            }
-
-            .messageTop {
-                display: flex;
-            }
-
-            .messageImg {
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                object-fit: cover;
-                margin-right: 10px;
-            }
-
-            .messageText {
-                padding: 10px;
-                border-radius: 20px;
-
-                max-width: 300px;
-            }
-
-            .messageBottom {
-                font-size: 12px;
-                margin-top: 10px;
-            }
-
-            .message.own {
-                align-items: flex-end;
-            }
-
-            .message .messageText {
-                background-color: rgb(245, 241, 241);
-                color: black;
-            }
-
-            .message.own .messageText {
-                background-color: #1877f2;
-                color: white;
-            }
-        }
-
-        .bottom {
-            padding: 20px;
-            border-top: 1px solid gray;
-            width: 100%;
-            display: flex;
-            gap: 10px;
-
-            .sentImg {
-                width: 30px;
-                height: 30px;
-                cursor: pointer;
-
-                svg {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-
-                input {
-                    display: none;
-                }
-            }
-
-            .text {
-                width: 100%;
-                border-radius: 8px;
-                border: none;
-                padding: 10px;
-                outline: none;
-            }
-
-            .sent {
-                background-color: #4E5D78;
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                border-radius: 7px;
-            }
-        }
-    }
-    .pickChat{
+      .messageTop {
         display: flex;
-        gap: 20px;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 20px;
-        .chatItem{
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            height: fit-content;
-            width: 100%;
-            padding: 20px;
-            background-color: #fff;
-            width: fit-content;
-            border-radius: 10px;
-            .imageWrapper {
-                width: 50px;
-                height: 50px;
-                border-radius: 100%;
-                position: relative;
-                img {
-                   position: relative !important;
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: inherit;
-                }}
+      }
+
+      .messageImg {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+
+      .messageText {
+        padding: 10px;
+        border-radius: 20px;
+
+        max-width: 300px;
+      }
+
+      .messageBottom {
+        font-size: 12px;
+        margin-top: 10px;
+      }
+
+      .message.own {
+        align-items: flex-end;
+        .messageTop {
+          flex-direction: row-reverse;
+          gap: 10px;
         }
+      }
+
+      .message .messageText {
+        background-color: rgb(245, 241, 241);
+        color: black;
+      }
+
+      .message.own .messageText {
+        background-color: #1877f2;
+        color: white;
+      }
     }
+
+    .bottom {
+      padding: 20px;
+      border-top: 1px solid gray;
+      width: 100%;
+      display: flex;
+      gap: 10px;
+
+      .sentImg {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+
+        svg {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        input {
+          display: none;
+        }
+      }
+
+      .text {
+        width: 100%;
+        border-radius: 8px;
+        border: none;
+        padding: 10px;
+        outline: none;
+      }
+
+      .sent {
+        background-color: #4e5d78;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 7px;
+      }
+    }
+  }
+  .pickChat {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    .chatItem {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      height: fit-content;
+      width: 100%;
+      padding: 20px;
+      background-color: #fff;
+      width: fit-content;
+      border-radius: 10px;
+      .imageWrapper {
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+        position: relative;
+        img {
+          position: relative !important;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: inherit;
+        }
+      }
+    }
+  }
 }

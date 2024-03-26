@@ -17,7 +17,14 @@ export const saveCookie = (cookie: string) => {
   }
 };
 export const getCookies = () => {
-  return Cookies.get("token");
+  return new Promise((resolve, reject) => {
+    const token = Cookies.get("token");
+    if (token) {
+      resolve(token);
+    } else {
+      reject("error");
+    }
+  });
 };
 export const deleteCookies = () => {
   Cookies.remove("token", { ...cookieOptions, path: "/" });

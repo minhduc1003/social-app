@@ -6,12 +6,16 @@ import { useRouter } from "next/navigation";
 import { getCookies } from "@/utils/cookies";
 const RootProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const cookies = getCookies();
-  useEffect(() => {
-    if (!cookies) {
-      router.push("/login");
+  const handleGetCookies = async()=>{
+    try {
+      await getCookies()
+    } catch (error) {
+      router.push("/login");      
     }
-  }, [cookies, router]);
+  }
+  useEffect(() => {
+    handleGetCookies()
+  }, []);
   return <Provider store={store}>{children}</Provider>;
 };
 
