@@ -24,7 +24,6 @@ function Input<
   const { field } = useController({
     control,
     name,
-    defaultValue: "",
   });
   const [isOpen, setIsOpen] = useState(true);
   return (
