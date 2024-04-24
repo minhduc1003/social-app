@@ -1,5 +1,5 @@
 "use client";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "../../../styles/homePageStyle/feed.module.scss";
 import FeedOptions from "./FeedOptions";
 import { appSelecter, dispatchType } from "@/redux/configureStore";
@@ -13,80 +13,80 @@ import { idShare, openModal, openShareArticle } from "@/redux/feature/modal";
 import ModalShare from "./ModalShare";
 
 const Feed = ({ Id }: { Id: string | null | undefined }) => {
-  const [post, setPost] = useState<TArticle>([]);
+  const [post, setPost] = useState<any>([]);
   const [text, setText] = useState<string>("");
   const dispatch = useDispatch<dispatchType>();
   const { user } = appSelecter((state) => state.auth);
   const { idShareArticle } = appSelecter((state) => state.modal);
-  const trimUserData ={
+  const trimUserData = {
     name: user?.name,
     image: user?.photo,
-  }
+  };
   const { article } = appSelecter((state) => state.article);
   const getPostById = async (postId: string) => {
-      const data = await axiosInstance.get<TArticle>(
-        `api/post/getPost/${postId}`
-      ).then(response =>
-        setPost(response.data)
-      )
-  }
+    const data = await axiosInstance
+      .get<TArticle>(`api/post/getPost/${postId}`)
+      .then((response) => setPost(response.data));
+  };
   const handleLike = async (id: string) => {
-      try {
-        await axiosInstance.get(
-          `api/post/likes/${id}`,
-        ).then(response => {
-          let arrayForSort = [...post]
-          arrayForSort.forEach((element, index) => {
-            if (element._id === response?.data._id) {
-              arrayForSort[index] = response?.data;
-            }
-          })
-          setPost(arrayForSort)
+    try {
+      await axiosInstance.get(`api/post/likes/${id}`).then((response) => {
+        let arrayForSort = [...post];
+        arrayForSort.forEach((element, index) => {
+          if (element._id === response?.data._id) {
+            arrayForSort[index] = response?.data;
+          }
         });
-      } catch (error) {
-        console.log(error);
-      }
-  }
-  const handleShare =  (id: string) => {
+        setPost(arrayForSort);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleShare = (id: string) => {
     dispatch(openModal(true));
     dispatch(openShareArticle(true));
     dispatch(idShare(id));
-   localStorage.setItem("height",`${window.scrollY}`);
-}
-  const handleComment = async (id:string)=>{
+    localStorage.setItem("height", `${window.scrollY}`);
+  };
+  const handleComment = async (id: string) => {
     try {
-      await axiosInstance.post(
-        `api/post/comments`,{
+      await axiosInstance
+        .post(`api/post/comments`, {
           id,
           text,
-          user:trimUserData
-        }
-      ).then(()=>{
-        dispatch(getArticles())
-        setText("")
-      })
-    } catch (error:any) {
-      console.log(error.message );
+          user: trimUserData,
+        })
+        .then(() => {
+          dispatch(getArticles());
+          setText("");
+        });
+    } catch (error: any) {
+      console.log(error.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (Id && Id !== undefined) {
-      setPost(() => getPostById(Id) as never)
+      setPost(() => getPostById(Id) as never);
     } else {
-      setPost(article as never)
+      setPost(article as never);
     }
-  }, [Id, article])
+  }, [Id, article]);
   return (
     <>
-
-      {idShareArticle&&<ModalShare data={user}></ModalShare>}  
+      {idShareArticle && <ModalShare data={user}></ModalShare>}
       {post.length > 0 &&
-        post.toReversed().map((data, index) => (
+        post.toReversed().map((data: any, index: any) => (
           <div key={data._id} className={style.wrap}>
             <div className={style.wrapTop}>
-             <FeedInformation id={data.userId} time={data?.createdAt}></FeedInformation>
-             {data.userId==user?._id && <FeedOptions id={data._id}></FeedOptions>}
+              <FeedInformation
+                id={data.userId}
+                time={data?.createdAt}
+              ></FeedInformation>
+              {data.userId == user?._id && (
+                <FeedOptions id={data._id}></FeedOptions>
+              )}
             </div>
             <div className={style.wrapCenter}>
               {data?.text && (
@@ -101,33 +101,36 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                     alt="img"
                     fill
                     sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px"
-                    style={{objectFit:"contain"}}
+                    style={{ objectFit: "contain" }}
                   />
                 </div>
               )}
-               {data?.share && (
-                    <div className={style.wrap}>
-                    <div className={style.wrapTop}>
-                       <FeedInformation id={data?.share.userId} time={data?.share?.createdAt}></FeedInformation>
-                      </div>
-                      <div className={style.wrapCenter}>
-                        {data?.share?.text && (
-                          <div className={style.content}>
-                            <p>{data?.share?.text}</p>
-                          </div>
-                        )}
-                        {data?.share?.image && (
-                          <div className={style.contentImage}>
-                            <Image
-                              src={data?.share?.image?.url}
-                              alt="img"
-                              layout="fill"
-                              style={{objectFit:"contain"}}
-                            />
-                          </div>
-                        )}
-                      </div>
+              {data?.share && (
+                <div className={style.wrap}>
+                  <div className={style.wrapTop}>
+                    <FeedInformation
+                      id={data?.share.userId}
+                      time={data?.share?.createdAt}
+                    ></FeedInformation>
                   </div>
+                  <div className={style.wrapCenter}>
+                    {data?.share?.text && (
+                      <div className={style.content}>
+                        <p>{data?.share?.text}</p>
+                      </div>
+                    )}
+                    {data?.share?.image && (
+                      <div className={style.contentImage}>
+                        <Image
+                          src={data?.share?.image?.url}
+                          alt="img"
+                          layout="fill"
+                          style={{ objectFit: "contain" }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
             <div className={style.contentDetail}>
@@ -143,11 +146,18 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
             <div className={style.communicate}>
               <div className={style.line}></div>
               <div className={style.communicateWrap}>
-                <div onClick={() => handleLike(data?._id as string)} className={style.communicateItem}>
+                <div
+                  onClick={() => handleLike(data?._id as string)}
+                  className={style.communicateItem}
+                >
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      fill={data?.likes.includes(user?._id as string) ? "red" : "none"}
+                      fill={
+                        data?.likes.includes(user?._id as string)
+                          ? "red"
+                          : "none"
+                      }
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
@@ -179,7 +189,12 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                   </span>
                   <p>Comments</p>
                 </div>
-                <div className={style.communicateItem} onClick={()=>handleShare(data?.share?._id||data?._id as string)}>
+                <div
+                  className={style.communicateItem}
+                  onClick={() =>
+                    handleShare(data?.share?._id || (data?._id as string))
+                  }
+                >
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -200,35 +215,33 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
               </div>
               <div className={style.line}></div>
             </div>
-            {
-              data?.comments.length>0 && data?.comments.map((comment:any,index) =>(
+            {data?.comments.length > 0 &&
+              data?.comments.map((comment: any, index: any) => (
                 <div key={index} className={style.commentText}>
-              <div className={style.avatarWrap}>
-                <Image
-                  src={comment?.user?.image||'/ava.png'}
-                  alt="img"
-                  fill
-                  sizes='(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px'
-                  style={{objectFit:"cover"}}
-                />
-              </div>
-              <div className={style.showComment}>
-                <h3>{comment?.user?.name}</h3>
-                <p>{comment?.text}</p>
-
-              </div>
-            </div>
-              ))
-            }
+                  <div className={style.avatarWrap}>
+                    <Image
+                      src={comment?.user?.image || "/ava.png"}
+                      alt="img"
+                      fill
+                      sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                  <div className={style.showComment}>
+                    <h3>{comment?.user?.name}</h3>
+                    <p>{comment?.text}</p>
+                  </div>
+                </div>
+              ))}
             <div className={style.commentText}>
               <div className={style.avatarWrap}>
-              <Image
-                 src={user?.photo||'/ava.png'}
-                 alt="img"
-                 fill
-                 sizes='(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px'
-                 style={{objectFit:"cover"}}
-              />
+                <Image
+                  src={user?.photo || "/ava.png"}
+                  alt="img"
+                  fill
+                  sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
               <input
                 placeholder="write a comment..."
@@ -237,9 +250,12 @@ const Feed = ({ Id }: { Id: string | null | undefined }) => {
                 id=""
                 // value={text}
                 className={style.inputText}
-                onChange={(e)=>setText(e.target.value)}
+                onChange={(e) => setText(e.target.value)}
               />
-              <div className={style.buttonSentComment} onClick={()=>handleComment(data._id)}>
+              <div
+                className={style.buttonSentComment}
+                onClick={() => handleComment(data._id)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
