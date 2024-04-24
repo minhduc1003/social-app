@@ -108,7 +108,7 @@ const Messages = () => {
               {renderMessage.map((message: any, index: number) => {
                 return (
                   <div
-                    ref={scrollRef}
+                    ref={(ref) => (scrollRef.current = ref as HTMLDivElement)}
                     key={index}
                     className={`${style.message} ${
                       user?._id === message.sender ? style.own : ""
