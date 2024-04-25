@@ -7,7 +7,7 @@ let date = new Date();
 date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
 const cookieOptions: options = {
   expires: date,
-  domain: "social-app-sooty-two.vercel.app",
+  domain: "ducozil1003.io.vn",
 };
 export const saveCookie = (cookie: string) => {
   if (cookie) {
