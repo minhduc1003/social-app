@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: 1.875rem;
   position: sticky;
-  top: 7.125rem;
+  top: 6.8rem;
   align-self: flex-start;
   height: 810px;
   background: #fff;
@@ -22,10 +22,12 @@
 }
 .active {
   display: flex !important;
+  z-index: 10000;
 }
 @media screen and (min-width: 375px) and (max-width: 1000px) {
   .aside {
     display: none;
     height: 780px;
+    position: fixed;
   }
 }

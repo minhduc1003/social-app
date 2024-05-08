@@ -39,7 +39,7 @@
 .wrapImage {
   position: absolute;
   left: 15%;
-  top: calc(50% + 2rem);
+  top: calc(50%);
   z-index: -100;
   img {
     width: 100%;
@@ -55,16 +55,28 @@
   width: 100%;
   z-index: -10000;
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
   .container {
     padding: 0 1.25rem;
+    .textWrap {
+      h1 {
+        font-size: 3.75rem;
+      }
+      p {
+        font-size: 1.5rem;
+      }
+    }
   }
   .left {
     flex-direction: column;
+    align-items: start;
+    flex: 0 1 0%;
   }
-  .textWrap {
-    font-size: 3.75rem;
+  .wrapImage {
+    display: none;
   }
+}
+@media screen and (min-width: 801px) and (max-width: 1150px) {
   .wrapImage {
     display: none;
   }
